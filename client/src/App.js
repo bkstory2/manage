@@ -41,6 +41,8 @@ function App() {
             <TableCell>생일</TableCell>
             <TableCell>성별</TableCell>
             <TableCell>직업</TableCell>
+
+            
           </TableRow>
         </TableHead>
         <TableBody>
