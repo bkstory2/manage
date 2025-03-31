@@ -1,25 +1,15 @@
 import React from 'react';
+import { TableRow , TableCell } from '@mui/material';
 
 const Customer = ({ id, name, image, birthday, gender, job }) => (
-  <div>
-    <CustomerProfile id={id} name={name} image={image} />
-    <CustomerInfo birthday={birthday} gender={gender} job={job} />
-  </div>
-);
-
-const CustomerProfile = ({ id, name, image }) => (
-  <div>
-    <h2>{id} - {name}</h2>
-    <img src={image} alt="profile" />
-  </div>
-);
-
-const CustomerInfo = ({ birthday, gender, job }) => (
-  <div>
-    <p>{birthday}</p>
-    <p>{gender}</p>
-    <p>{job}</p>
-  </div>
+       <TableRow>
+        <TableCell>{id}</TableCell>
+        <TableCell>{name}</TableCell>
+        <TableCell>{image}</TableCell>
+        <TableCell>{birthday}</TableCell>
+        <TableCell>{gender}</TableCell>
+        <TableCell>{job}</TableCell>        
+      </TableRow> 
 );
 
 export default Customer;
