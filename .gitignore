@@ -2,6 +2,7 @@
 
 #database
 /database.json
+/package.json
 
 # dependencies
 /node_modules
