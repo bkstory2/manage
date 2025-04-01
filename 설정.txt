@@ -5,3 +5,5 @@ npm install @mui/material @emotion/react @emotion/styled
 NODE JS EXPRESS
 
  npm install nodemon
+
+npm install --save body-parser
