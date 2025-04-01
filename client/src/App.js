@@ -14,8 +14,9 @@ function App() {
     callList()
       .then(res => setCustomers(res))
       .catch(err => console.log(err));
-      
+
   }, []); // []를 넣으면 컴포넌트가 처음 마운트될 때만 실행됨
+
 
   const callList = async () => {
     const response = await fetch('/api/list');
