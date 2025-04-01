@@ -12,6 +12,6 @@ const Customer = ({ id, name, image, birthday, gender, job }) => (
       </TableRow> 
 );
 
-export default Customer;
+export default    Customer;
 
 
