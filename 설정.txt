@@ -7,3 +7,7 @@ NODE JS EXPRESS
  npm install nodemon
 
 npm install --save body-parser
+
+https://jsonlint.com   
+
+npm install --save mysql
