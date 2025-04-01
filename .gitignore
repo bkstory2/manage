@@ -12,6 +12,9 @@
 # testing
 /coverage
 
+# upload 파일
+/upload
+
 # production
 /build
 

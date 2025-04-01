@@ -3,6 +3,8 @@ import './App.css';
 import Customer from './components/Customer';
 import { Paper, Table, TableHead, TableBody, TableRow, TableCell } from '@mui/material';
 
+import CustomerAdd from './components/CustomerAdd';
+
 function App() {
 
 
@@ -25,33 +27,37 @@ function App() {
   };
 
   return (
-    <Paper sx={{ width: '100%', overflowX: 'auto', padding: 2 }}>
-      <Table sx={{ minWidth: 1080 }}>
-        <TableHead>
-          <TableRow>
-            <TableCell>번호</TableCell>
-            <TableCell>이미지</TableCell>
-            <TableCell>이름</TableCell>
-            <TableCell>생일</TableCell>
-            <TableCell>성별</TableCell>
-            <TableCell>직업</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {customers.length > 0 ? (
-            customers.map((c) => (
-              <Customer key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job} />
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={6} align="center">
-                데이터가 없습니다.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-    </Paper>
+    <div>
+        <Paper sx={{ width: '100%', overflowX: 'auto', padding: 2 }}>
+          <Table sx={{ minWidth: 1080 }}>
+            <TableHead>
+              <TableRow>
+                <TableCell>번호</TableCell>
+                <TableCell>이미지</TableCell>
+                <TableCell>이름</TableCell>
+                <TableCell>생일</TableCell>
+                <TableCell>성별</TableCell>
+                <TableCell>직업</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {customers.length > 0 ? (
+                customers.map((c) => (
+                  <Customer key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job} />
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={6} align="center">
+                    데이터가 없습니다.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </Paper>
+
+        <CustomerAdd />
+    </div>
   );
 }
 

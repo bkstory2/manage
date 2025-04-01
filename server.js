@@ -22,6 +22,9 @@ connection.connect();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // ✅ 오타 수정
 
+const multer = require('multer') ; 
+const upload = multer({dest : './upload'}) ; 
+
 // ✅ API 수정: query 콜백 함수 위치 수정
 app.get('/api/list', (req, res) => {
     connection.query("select * from customer where use_yn=1 order by id desc  ", (err, rows, fields) => {
@@ -35,4 +38,31 @@ app.get('/api/list', (req, res) => {
 });
 
 // ✅ 서버 실행
+
+app.use('/image' , express.static('./upload')) ; //폴더 공유  
+
+app.post('api/customer' , upload.single('image'),(req,res)=> {
+
+    let sql = '' ; 
+    
+
+    let image = '/image' + req.file.filename ;
+
+    let method   =  req.body.method ;
+    let name     =  req.body.name ;
+    let birthday =  req.body.birthday ;
+    let genter   =  req.body.genter ;
+    let job      =  req.body.job ;
+
+    let params = [ image, name , birthday, genter, job ] ; 
+    
+    if ( method == "add" )
+    {
+        sql =' insert into customer ( image, name , birthday, genter, job  ) values ( ? ,? ,? ,? ,? ) ;  ' ; 
+        connection.query( sql , params , ( err, rows , fields) => {
+            res.send(rows);
+        } )
+    }
+} )
+
 app.listen(port, () => console.log(`🚀 Server is running on port ${port}`));

@@ -11,3 +11,8 @@ npm install --save body-parser
 https://jsonlint.com   
 
 npm install --save mysql
+
+add.jsx 시  서버통신 위해 exios 설치 하기 
+npm install --save axios
+
+ npm install --save multer   // 
