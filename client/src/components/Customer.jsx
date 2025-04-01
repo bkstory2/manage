@@ -13,3 +13,5 @@ const Customer = ({ id, name, image, birthday, gender, job }) => (
 );
 
 export default Customer;
+
+
