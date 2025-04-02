@@ -1,12 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 
-const CustomerAdd = ({ onCustomerAdd  }) => {
+const CustomerAdd = ({ onCustomerAddSuccess, resetForm, setResetForm }) => {
     const [file, setFile] = useState(null);
     const [name, setName] = useState("");
     const [birthday, setBirthday] = useState("");
     const [gender, setGender] = useState("");
     const [job, setJob] = useState("");
+    const fileInputRef = useRef(null);
+
+    // resetForm 값이 변경되면 입력 필드 초기화
+    useEffect(() => {
+        if (resetForm) {
+            setFile(null);
+            setName("");
+            setBirthday("");
+            setGender("");
+            setJob("");
+            if (fileInputRef.current) {
+                fileInputRef.current.value = "";
+            }
+            setResetForm(false); // 초기화 후 다시 false로 변경
+        }
+    }, [resetForm, setResetForm]);
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
@@ -15,16 +31,8 @@ const CustomerAdd = ({ onCustomerAdd  }) => {
             await addCustomer();
             alert("고객이 추가되었습니다!");
 
-            // 입력값 초기화
-            setFile(null);
-            setName("");
-            setBirthday("");
-            setGender("");
-            setJob("");
-
-            // 부모 컴포넌트(App.js)에 새 고객 추가 알림
-            if (onCustomerAdd ) {
-                onCustomerAdd ();
+            if (onCustomerAddSuccess) {
+                onCustomerAddSuccess();
             }
         } catch (error) {
             console.error("고객 추가 실패:", error);
@@ -57,7 +65,7 @@ const CustomerAdd = ({ onCustomerAdd  }) => {
             <h1>추가</h1>
             <label>
                 프로필 이미지:
-                <input type="file" onChange={handleFileChange} />
+                <input type="file" ref={fileInputRef} onChange={handleFileChange} />
             </label>
             <br />
 

@@ -16,3 +16,9 @@ add.jsx 시  서버통신 위해 exios 설치 하기
 npm install --save axios
 
  mamange >>>   npm install --save multer   // 
+
+
+
+디버깅   :       chrome://inspect   
+"Remote Targets" 섹션에서 server.js를 찾습니다.
+inspect 버튼을 클릭하면 Chrome DevTools의 Debugger 창이 열립니다.

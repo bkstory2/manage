@@ -43,59 +43,85 @@ app.use('/image' , express.static('./upload')) ; //폴더 공유
 
 const path = require('path');
 
+
 app.post('/api/customer', upload.single('image'), (req, res) => {
-    if (!req.file) {
-        return res.status(400).send({ error: "No file uploaded" });
+    
+    let method = req.body.method; // method를 최상단에서 선언
+    console.log("Received method:", method);
+
+    if (method === "delete") {
+        let id = req.body.id;
+        let params = [id];
+
+        let sql = 'UPDATE customer SET use_yn=0 WHERE id = ?';
+        
+        console.log("실행되는 delete SQL (바인딩 전) =>", sql);
+        console.log("SQL 파라미터 =>", params);
+
+        connection.query(sql, params, (err, rows, fields) => {
+            if (err) {
+                console.error("❌ Database delete error:", err);
+                return res.status(500).send("Database delete error");
+            }
+
+            console.log("✅ SQL 실행 완료");
+            res.send(rows);
+        });
+
+        return; // 여기서 끝내야 add 로직이 실행되지 않음
     }
 
-    // 현재 시간 생성 (yyyymmddhhmmss)
-    const timestamp = new Date().toISOString().replace(/[-T:.Z]/g, '').slice(0, 14);
-
-    // 원본 파일명 (확장자 포함)
-    const originalName = path.basename(req.file.originalname);
-
-    // 새로운 파일명 생성
-    const newFilename = `${timestamp}_${originalName}`;
-
-    // 저장 경로 수정
-    const newPath = path.join('./upload', newFilename);
-    const imageUrl = `/image/${newFilename}`;
-
-    // 파일명 변경
-    fs.rename(req.file.path, newPath, (err) => {
-        if (err) {
-            console.error("File rename error:", err);
-            return res.status(500).send({ error: "File rename error" });
+    if (method === "add") {
+        if (!req.file) {
+            return res.status(400).send({ error: "No file uploaded" });
         }
 
-        let method = req.body.method;
-        let name = req.body.name;
-        let birthday = req.body.birthday;
-        let gender = req.body.gender;
-        let job = req.body.job;
+        // 현재 시간 생성 (yyyymmddhhmmss)
+        const timestamp = new Date().toISOString().replace(/[-T:.Z]/g, '').slice(0, 14);
 
-        let params = [imageUrl, name, birthday, gender, job];
+        // 원본 파일명과 새 파일명 생성
+        const originalName = path.basename(req.file.originalname);
+        const newFilename = `${timestamp}_${originalName}`;
+        const newPath = path.join('./upload', newFilename);
+        const imageUrl = `/image/${newFilename}`;
 
-        console.log("===================method  => ", method);
-        console.log("===================image  => ", imageUrl);
-        console.log("===================name  => ", name);
-        console.log("===================birthday  => ", birthday);
-        console.log("===================gender  => ", gender);
-        console.log("===================job  => ", job);
+        fs.rename(req.file.path, newPath, (err) => {
+            if (err) {
+                console.error("File rename error:", err);
+                return res.status(500).send({ error: "File rename error" });
+            }
 
-        if (method === "add") {
+            let name = req.body.name;
+            let birthday = req.body.birthday;
+            let gender = req.body.gender;
+            let job = req.body.job;
+
+            let params = [imageUrl, name, birthday, gender, job];
+
+            console.log("=================== image  => ", imageUrl);
+            console.log("=================== name  => ", name);
+            console.log("=================== birthday  => ", birthday);
+            console.log("=================== gender  => ", gender);
+            console.log("=================== job  => ", job);
+
             let sql = 'INSERT INTO customer (image, name, birthday, gender, job) VALUES (?, ?, ?, ?, ?)';
+            
+            console.log("실행되는 SQL (바인딩 전) =>", sql);
+            console.log("SQL 파라미터 =>", params);
+
             connection.query(sql, params, (err, rows, fields) => {
                 if (err) {
-                    console.error("Database insert error:", err);
+                    console.error("❌ Database insert error:", err);
                     return res.status(500).send("Database insert error");
                 }
+
+                console.log("✅ SQL 실행 완료");
                 res.send(rows);
             });
-        } else {
-            res.status(400).send({ error: "Invalid method" });
-        }
-    });
+        });
+    }
 });
+
+
 
 app.listen(port, () => console.log(`🚀 Server is running on port ${port}`));
