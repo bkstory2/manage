@@ -22,3 +22,8 @@ npm install --save axios
 디버깅   :       chrome://inspect   
 "Remote Targets" 섹션에서 server.js를 찾습니다.
 inspect 버튼을 클릭하면 Chrome DevTools의 Debugger 창이 열립니다.
+
+
+/client>   npm install @mui/material @emotion/react @emotion/styled @mui/icons-material
+
+/client>   npm install @mui/material @mui/icons-material

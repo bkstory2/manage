@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { Typography } from "@mui/material";
 
 const CustomerDeleteButton = ({ id, onDeleteSuccess }) => {
     const deleteCustomer = async () => {
@@ -24,7 +25,10 @@ const CustomerDeleteButton = ({ id, onDeleteSuccess }) => {
     };
 
     return (
+        <div>
         <button onClick={deleteCustomer}>{id} 삭제</button>
+        
+        </div>    
     );
 };
 

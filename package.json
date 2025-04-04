@@ -2,11 +2,15 @@
   "name": "manage",
   "version": "1.0.0",
   "scripts": {
-    "client": "cd client && yarn start",  
-    "server": "nodemon --inspect server.js",  
-    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""  
+    "client": "cd client && yarn start",
+    "server": "nodemon --inspect server.js",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^7.0.1",
+    "@mui/material": "^7.0.1",
     "axios": "^1.8.4",
     "body-parser": "^2.2.0",
     "express": "5.1.0",

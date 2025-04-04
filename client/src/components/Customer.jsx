@@ -1,6 +1,8 @@
 import React from 'react';
 import { TableRow, TableCell } from '@mui/material';
-import CustomerDeleteButton from './CustomerDeleteButton';
+import CustomerDeletePop from './CustomerDeletePop';
+
+
 
 const Customer = ({ id, name, image, birthday, gender, job , onDeleteSuccess }) => (
     <TableRow>
@@ -12,7 +14,7 @@ const Customer = ({ id, name, image, birthday, gender, job , onDeleteSuccess }) 
         <TableCell>{birthday}</TableCell>
         <TableCell>{gender}</TableCell>
         <TableCell>{job}</TableCell>  
-        <TableCell> <CustomerDeleteButton id={id} onDeleteSuccess={onDeleteSuccess} /> </TableCell>        
+        <TableCell> <CustomerDeletePop  id={id} onDeleteSuccess={onDeleteSuccess} /> </TableCell>        
     </TableRow> 
 );
 

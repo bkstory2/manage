@@ -25,9 +25,21 @@ app.use(bodyParser.urlencoded({ extended: true })); // ✅ 오타 수정
 const multer = require('multer') ; 
 const upload = multer({dest : './upload'}) ;   //기본 폴더 
 
-// ✅ API 수정: query 콜백 함수 위치 수정
-app.get('/api/list', (req, res) => {
-    connection.query("select * from customer where use_yn=1 order by id desc  ", (err, rows, fields) => {
+
+// ✅ 검색 API 수정 (JSON 방식으로 변경됨)
+app.post('/api/list', (req, res) => {
+    console.log("Received search term:", req.body); // 디버깅용 로그 추가
+
+    let search = req.body.search ? `%${req.body.search}%` : '%';
+
+    const query = `
+        SELECT * FROM customer 
+        WHERE use_yn = 1 
+        AND (name LIKE ? OR birthday LIKE ? OR job LIKE ? OR gender LIKE ?)
+        ORDER BY id DESC
+    `;
+
+    connection.query(query, [search, search, search, search], (err, rows) => {
         if (err) {
             console.error("Database query error:", err);
             res.status(500).send("Database query error");
@@ -36,6 +48,11 @@ app.get('/api/list', (req, res) => {
         res.send(rows);
     });
 });
+
+app.listen(5000, () => {
+    console.log("Server running on port 5000");
+});
+
 
 // ✅ 서버 실행
 
