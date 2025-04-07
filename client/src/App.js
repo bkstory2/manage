@@ -7,10 +7,12 @@ import { styled, alpha } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import axios from "axios";
+import CustomerPopAdd from './components/CustomerPopAdd';
 
 const theme = createTheme();
 
 function App() {
+
   const [customers, setCustomers] = useState([]);
   const [searchTerm, setSearchTerm] = useState(""); // ✅ 검색어 상태 추가
 
@@ -66,9 +68,6 @@ useEffect(() => {
 const callList = async (searchTerm = "") => {
   const url = "/api/list";
 
- // alert(searchTerm); 
-
-  // ✅ FormData 대신 JSON 방식으로 전송
   const response = await axios.post(url, { search: searchTerm }, {
       headers: { "Content-Type": "application/json" } // ✅ JSON 형식 명시
   });
@@ -77,12 +76,20 @@ const callList = async (searchTerm = "") => {
 };
   
 
-  // ✅ 검색어가 포함된 고객 리스트 필터링
-  const filteredCustomers = customers.filter(c => 
+const onDbSuccess = () => {
+
+     callList(searchTerm)
+
+    .then(res => setCustomers(res))
+    .catch(err => console.error(err));
+};
+
+// ✅ 검색어가 포함된 고객 리스트 필터링
+const filteredCustomers = customers.filter(c => 
     c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     c.job.toLowerCase().includes(searchTerm.toLowerCase()) ||
     c.gender.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+);
 
   const cellList = ["번호", "이미지", "이름", "생일", "성별", "직업", "설정"];
 
@@ -123,7 +130,7 @@ const callList = async (searchTerm = "") => {
             <TableBody>
               {filteredCustomers.length > 0 ? (
                 filteredCustomers.map((c) => (
-                  <Customer key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job} />
+                  <Customer key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job}  onDbSuccess={onDbSuccess}/>
                 ))
               ) : (
                 <TableRow>
@@ -134,7 +141,13 @@ const callList = async (searchTerm = "") => {
               )}
             </TableBody>
           </Table>
+
+          <CustomerPopAdd onDbSuccess={onDbSuccess} /> 
+
         </Paper>
+
+       
+
       </>
     </ThemeProvider>
   );

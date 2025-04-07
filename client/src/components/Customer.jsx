@@ -4,7 +4,7 @@ import CustomerDeletePop from './CustomerDeletePop';
 
 
 
-const Customer = ({ id, name, image, birthday, gender, job , onDeleteSuccess }) => (
+const Customer = ({ id, name, image, birthday, gender, job , onDbSuccess }) => (
     <TableRow>
         <TableCell>{id}</TableCell>
         <TableCell>
@@ -14,7 +14,7 @@ const Customer = ({ id, name, image, birthday, gender, job , onDeleteSuccess }) 
         <TableCell>{birthday}</TableCell>
         <TableCell>{gender}</TableCell>
         <TableCell>{job}</TableCell>  
-        <TableCell> <CustomerDeletePop  id={id} onDeleteSuccess={onDeleteSuccess} /> </TableCell>        
+        <TableCell> <CustomerDeletePop  id={id} onDbSuccess={onDbSuccess} /> </TableCell>        
     </TableRow> 
 );
 

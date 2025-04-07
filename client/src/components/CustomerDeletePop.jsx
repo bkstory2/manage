@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button , Typography } from "@mui/material";
 
-const CustomerDeletePop = ({ id, onDeleteSuccess }) => {
+const CustomerDeletePop = ({ id, onDbSuccess }) => {
 
     const [popopen, setPopopen] = useState(false);
 
@@ -21,15 +21,13 @@ const CustomerDeletePop = ({ id, onDeleteSuccess }) => {
             formData.append("id", String(id));
 
             await axios.post(url, formData);
+
+            handleClose(); // 먼저 팝업 닫기
+
+            if (onDbSuccess) onDbSuccess();
+            
             alert(`고객 ${id} 삭제 완료`);
 
-            handleClose();
-
-            // 삭제 후 리스트 갱신 요청
-            if (onDeleteSuccess) 
-            {
-                onDeleteSuccess();
-            }
         } catch (error) {
             console.error("❌ 고객 삭제 실패:", error);
             alert("고객 삭제 중 오류 발생");
